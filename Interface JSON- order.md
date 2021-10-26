@@ -165,16 +165,25 @@ Reprezentuje pozycje dokumentu.
 | Pole | Wymagane | Opis | Typ danych| Pole WMS |
 |--|--|--|--|--|
 |LP|N | Numer linii - pole wykorzystywane w przypadku gdy systemy ERP w  komunikatach zwrotnych wymagają tej informacji np. SAP R3| int |`dori_lineNr`
-|SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy|varchar(25) |`dori_SSCC`
-|typ_palety|N |typ nośnika stosowany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
-|kod|T |kod porduktu|nvarchar(50) |`prd_code`
-|nazwa|N |nazwa produktu (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostanie wykorzystany kod produktu)|nvarchar(250) |`prd_name`
-|jednostka_miary|N |podstawowa jednostka miary. (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostań domyślna jednostka miary) |varchar(25) |`uom_code`
+|kod|T |kod porduktu jednoznacznie identyfikuje produkt musi byc unikatowy w obrębie jednego zleceniodawcy|nvarchar(50) |`prd_code`
 |ilosc_zamowiona|T |Ilość zamówiona w podstawowych jednostkach miary|decimal(18,6) |`dori_basicQuantity`
+|nazwa|N |nazwa produktu (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostanie wykorzystany kod produktu). Nazwa nie musi byc unikatowa.|nvarchar(250) |`prd_name`
+|EAN|N |kod kreskowy dla podstawowej jednostki miary (np EAN13) - kod nie musi byc unikatowy|varchar(25) |`prd_name`
+|jednostka_miary|N |podstawowa jednostka miary. Kod jednostki miary pownien byc zgodni ze słownikiem w systemie WMS. (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostań domyślna jednostka miary) |varchar(25) |`uom_code`
+|SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy|varchar(25) |`dori_SSCC`
+|typ_palety|N |typ nośnika stosowany tylko w przypadku awiza dostawy. Używany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
+|opakowania|N |Struktura pakowania produktu sekcja w zasadzie powinna być wstawiana głownie w przypadku awizacji dostaw.|kolekcja
 |atrybuty|N |Atrybuty nagłówka dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
 
+### Opakowania
 
-
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |
+|--|--|--|--|--|
+|waga|N |Waga brutto dla podstawowej jednostki miary wyrazona w ***kg***| decimal(18,6) |pplv_weight
+|objetosc|N |Objętość podstawowej jednostki miary wyrazona w ***m3***| decimal(18,6) |pplv_volume
+|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `calc_as_opa` | decimal(18,6) |
+|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `calc_as_opa` | decimal(18,6) |
+      
 
 ### Komunikat zwrotny
 Zawiera to co komunikat wejściowy poszerzone o pola:
