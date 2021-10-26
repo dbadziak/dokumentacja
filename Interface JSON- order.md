@@ -168,7 +168,7 @@ Reprezentuje pozycje dokumentu.
 |kod|T |kod porduktu jednoznacznie identyfikuje produkt musi byc unikatowy w obrębie jednego zleceniodawcy|nvarchar(50) |`prd_code`
 |ilosc_zamowiona|T |Ilość zamówiona w podstawowych jednostkach miary|decimal(18,6) |`dori_basicQuantity`
 |nazwa|N |nazwa produktu (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostanie wykorzystany kod produktu). Nazwa nie musi byc unikatowa.|nvarchar(250) |`prd_name`
-|EAN|N |kod kreskowy dla podstawowej jednostki miary (np EAN13) - kod nie musi byc unikatowy|varchar(25) |`prd_name`
+|EAN|N |kod kreskowy dla podstawowej jednostki miary (np EAN13) - kod nie musi byc unikatowy. W przypadku wystepienia innego kodu niż wczesniej dodany oryginalny wpis sie nie zaktulizuje, dodany zostanie nowy z bieżacym kodem |varchar(25) |`prd_name`
 |jednostka_miary|N |podstawowa jednostka miary. Kod jednostki miary pownien byc zgodni ze słownikiem w systemie WMS. (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostań domyślna jednostka miary) |varchar(25) |`uom_code`
 |SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy|varchar(25) |`dori_SSCC`
 |typ_palety|N |typ nośnika stosowany tylko w przypadku awiza dostawy. Używany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
@@ -177,12 +177,14 @@ Reprezentuje pozycje dokumentu.
 
 ### Opakowania
 
+Struktura pakowania ***nie aktualizuje sie*** zakładana jest przy pierwszym dodaniu produktu. 
+
 | Pole | Wymagane | Opis | Typ danych| Pole WMS |
 |--|--|--|--|--|
 |waga|N |Waga brutto dla podstawowej jednostki miary wyrazona w ***kg***| decimal(18,6) |pplv_weight
 |objetosc|N |Objętość podstawowej jednostki miary wyrazona w ***m3***| decimal(18,6) |pplv_volume
-|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `calc_as_opa` | decimal(18,6) |
-|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `calc_as_opa` | decimal(18,6) |
+|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Tworzony jest nowy poziom struktury pakowania. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `pplv_calcAsOpa` | decimal(18,6) |
+|jedn_podstawowych_na_palecie|N |ilość jednostek podatwowych w kartonie. Tworzony jest nowy poziom struktury pakowania.Ten poziom opakowań oznaczany jest automatycznie jako paleta `pplv_isLoadUnit` | decimal(18,6) |
       
 
 ### Komunikat zwrotny
