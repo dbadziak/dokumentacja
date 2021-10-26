@@ -52,8 +52,6 @@ kraj|N |kod kraju jeśli puste wstawiany **PL**|varchar(2)
 
 
 Przykład JSON:
-
-
 ```json
 "kontrahent": {
                 "kod": "F00001",
@@ -64,8 +62,8 @@ Przykład JSON:
                 "kraj": "PL"
             },
 ```
-Przykład XML:
 
+Przykład XML:
 ```XML
 <kontrahent>
 	<kod>F00001</kod>
@@ -107,7 +105,7 @@ Zawiera to co komunikat wejściowy poszerzone o pola:
 > do dodania pola baselinkerID, Inpost_gabaryt, Inpost_paczkomat
 
 
-Przykład:
+Przykład JSON:
 ```json
     "kurier": {
                 "usluga": "DHL Standard",
@@ -119,6 +117,17 @@ Przykład:
              },
 ```
 
+Przykład XML:
+```XML
+<kurier>
+	<usluga>DHL Standard</usluga>
+	<COD>156.23</COD>
+	<kwota_ubezpieczenia>500</kwota_ubezpieczenia>
+	<telefon>555-666-777</telefon>
+	<email>klient@kontakt.pl</email>
+	<dodatkowe_info>Uwaga szkło</dodatkowe_info>
+</kurier>
+```
 
 ## Kolekcja atrybuty
 
