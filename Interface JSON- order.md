@@ -68,13 +68,13 @@ Przykład XML:
 
 ```XML
 <kontrahent>
-			<kod>F00001</kod>
-			<nazwa>Logsoft</nazwa>
-			<ulica>Papiernicza 7e</ulica>
-			<kod_pocztowy>93-400</kod_pocztowy>
-			<miasto>Łódź</miasto>
-			<kraj>PL</kraj>
-		</kontrahent>
+	<kod>F00001</kod>
+	<nazwa>Logsoft</nazwa>
+	<ulica>Papiernicza 7e</ulica>
+	<kod_pocztowy>93-400</kod_pocztowy>
+	<miasto>Łódź</miasto>
+	<kraj>PL</kraj>
+</kontrahent>
 ```
 
 
