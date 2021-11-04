@@ -143,19 +143,37 @@ Kolekcja atrybuty może posiadać Max 20 obiektów. Atrybuty, których nazwa bę
 
 
 
-Przykład:
+Przykład JSON: 
 ```json
-"atrybuty dokumentu": [
-        {
-          "nazwa": "NR_dokumentu_celnego",
-          "wartosc": "2020/78123456"
-        },
-        {
-          "nazwa": "Nr plomby",
-          "wartosc": "123456"
-        }
-      ]
+  "atrybuty_dokumentu": {
+    "atrybut": [
+      {
+        "nazwa": "Nr_dokumentu_celnego",
+        "wartosc": "123456"
+      },
+      {
+        "nazwa": "Nr_zamowienia",
+        "wartosc": "hth/2020/829347"
+      }
+    ]
+  }
 ```
+
+Przykład XML:
+
+```XML
+        <atrybuty_dokumentu>
+            <atrybut>
+                <nazwa>Nr_dokumentu_celnego</nazwa>
+                <wartosc>123456</wartosc>
+            </atrybut>
+            <atrybut>
+                <nazwa>Nr_zamowienia</nazwa>
+                <wartosc>hth/2020/829347</wartosc>
+            </atrybut>
+        </atrybuty_dokumentu>
+```
+
 
 
 ## Pozycje dokumentu
@@ -200,176 +218,159 @@ OUT_ilosc_zrealizowana | N |[Tylko dla komunikatu zwrotnego] Zrealizowana iloś�
 
 Przykład dokumet typu OUT:
 ```json
- "pozycje": [
-      {
-        "LP": "1",
-        "SSCC": "159036345104856550",
-        "kod": "kodtowaru",
-        "nazwa": "nazwatowaru",
-        "ean": "5091234567890",
-        "jednostka_miary": "szt",
-        "ilosc_zamowiona": "100",
-        "atrybuty": [
-            {
-              "nazwa": "nr_LOT",
-              "wartosc": "ABCD826"
-            }
-          ]        
-      }
-    ]
-```
-```XML
-<pozycje>
-    <LP>2</LP>
-    <kod>HAO YOS314</kod>
-    <nazwa>HAO YOS314</nazwa>
-    <ean>5090987654321</ean>
-    <jednostka_miary>szt</jednostka_miary>
-    <ilosc_zamowiona>4</ilosc_zamowiona>
-</pozycje>
-```
-
-## Kolekcja atrybuty
-
-
-Sekcja niewymagana Kolekcja atrybuty może posiadać Max 10 obiektów. Atrybuty, których nazwa będzie niezgodna z nazwą w definicji atrybutów systemu WMS będą ignorowane.
-
-
-| Pole | Wymagane | Opis | Typ danych| Pole WMS |
-|--|--|--|--|--|
-|nazwa|T | kod atrybutu z definicji atrybutów systemu WMS | nvarchar(50) |`pdef_code`
-|Wartosc|T |wartość wstawiana do odpowiedniego atrybutu pozycji dokumentu|nvarchar(50) |`dori_attribXX` lub `dori_itemAttribXX`
-
-
-
-
-## Przykłady
-
-### JSON
-Przykład zamówienia od klienta w formacie JSON
-```json
 {
-  "naglowek": {
-    "typ": "OUT",
-    "zleceniodawca": "Zlec_1",
-    "centrum_logistyczne": "CL_Lodz",
-    "data_realizacji": "2021-07-10",
-    "priorytet": "1",
-    "nr_alternatywny_dokumentu": "ZAM/2021/62934",
-    "opis": "Przykładowy opis do dokumentu",
-    "kontrahent": {
-      "kod": "7811903679",
-      "nazwa": "Logsoft",
-      "ulica": "Papiernicza 7e",
-      "kod_pocztowy": "92-318",
-      "miasto": "Łódź",
-      "kraj": "PL"
-    },
-    "kurier": {
-      "usluga": "DHL Standard",
-      "COD": "156.23",
-      "kwota_ubezpieczenia": "500",
-      "telefon": "555-666-777",
-      "email": "klient@kontakt.pl",
-      "dodatkowe_info": "Uwaga szkło"
-    },
-    "atrybuty dokumentu": [
-      {
-        "nazwa": "Nr_dokumentu_celnego",
-        "wartosc": "123456"
-      }
-    ]
-  },
-  "pozycje": [
-    {
-      "LP": "1",
-      "kod": "PM YOS9",
-      "ilosc_zamowiona": "1",
-      "nazwa": "Pluszowy miś",
-      "ean": "5091234567890",
-      "jednostka_miary": "szt",
-      "opakowania": {
-        "waga": "12",
-        "objetosc": "0.02",
-        "jedn_podstawowych_w_kartonie": "10",
-        "jedn_podstawowych_na_palecie": "100"
-      },
-      "atrybuty": [
-        {
-          "nazwa": "nr_LOT",
-          "wartosc": "ABCD826"
-        }
-      ]
-    },
-    {
-      "LP": "2",
-      "kod": "GK A314",
-      "nazwa": "Gumowa kaczuszka",
-      "ean": "5090987654321",
-      "jednostka_miary": "szt",
-      "ilosc_zamowiona": "4"
-    }
-  ]
+	"dokument": {
+		"naglowek": {
+			"typ": "OUT",
+			"zleceniodawca": "Zlec_1",
+			"centrum_logistyczne": "CL_Lodz",
+			"data_realizacji": "2021-07-10",
+			"priorytet": "1",
+			"nr_alternatywny_dokumentu": "ZAM/2021/62934",
+			"opis": "Przykładowy opis do dokumentu",
+			"kontrahent": {
+				"kod": "7811903679",
+				"nazwa": "Logsoft",
+				"ulica": "Papiernicza 7e",
+				"kod_pocztowy": "92-318",
+				"miasto": "Łódź",
+				"kraj": "PL"
+			},
+			"kurier": {
+				"usluga": "DHL Standard",
+				"COD": "156.23",
+				"kwota_ubezpieczenia": "500",
+				"telefon": "555-666-777",
+				"email": "klient@kontakt.pl",
+				"dodatkowe_info": "Uwaga szkło"
+			},
+			"atrybuty_dokumentu": {
+				"atrybut": [
+					{
+						"nazwa": "Nr_dokumentu_celnego",
+						"wartosc": "123456"
+					},
+					{
+						"nazwa": "Nr_zamowienia",
+						"wartosc": "hth/2020/829347"
+					}
+				]
+			}
+		},
+		"pozycje": [
+			{
+				"LP": "1",
+				"kod": "PM YOS9",
+				"ilosc_zamowiona": "1",
+				"nazwa": "Pluszowy miś",
+				"ean": "5091234567890",
+				"jednostka_miary": "szt",
+				"opakowania": {
+					"waga": "12",
+					"objetosc": "0.02",
+					"jedn_podstawowych_w_kartonie": "10",
+					"jedn_podstawowych_na_palecie": "100"
+				},
+				"atrybuty_pozycji": {
+					"atrybut": [
+						{
+							"nazwa": "nr_LOT",
+							"wartosc": "ABCD826"
+						},
+						{
+							"nazwa": "Status_jakosci",
+							"wartosc": "OK"
+						}
+					]
+				}
+			},
+			{
+				"LP": "2",
+				"kod": "GK A314",
+				"nazwa": "Gumowa kaczuszka",
+				"ean": "5090987654321",
+				"jednostka_miary": "szt",
+				"ilosc_zamowiona": "4"
+			}
+		]
+	}
 }
 ```
 ### XML
 Przykład skonwertowany do formatu XML
 
 ```XML
-<naglowek>
-    <typ>OUT</typ>
-    <zleceniodawca>Zlec_1</zleceniodawca>
-    <centrum_logistyczne>CL_Lodz</centrum_logistyczne>
-    <data_realizacji>2021-07-10</data_realizacji>
-    <priorytet>1</priorytet>
-    <nr_alternatywny_dokumentu>ZAM/2021/62934</nr_alternatywny_dokumentu>
-    <opis>Przykładowy opis do dokumentu</opis>
-    <kontrahent>
-        <kod>7811903679</kod>
-        <nazwa>Logsoft</nazwa>
-        <ulica>Papiernicza 7e</ulica>
-        <kod_pocztowy>92-318</kod_pocztowy>
-        <miasto>Łódź</miasto>
-        <kraj>PL</kraj>
-    </kontrahent>
-    <kurier>
-        <usluga>DHL Standard</usluga>
-        <COD>156.23</COD>
-        <kwota_ubezpieczenia>500</kwota_ubezpieczenia>
-        <telefon>555-666-777</telefon>
-        <email>klient@kontakt.pl</email>
-        <dodatkowe_info>Uwaga szkło</dodatkowe_info>
-    </kurier>
-    <atrybuty_dokumentu>
-        <nazwa>Nr_dokumentu_celnego</nazwa>
-        <wartosc>123456</wartosc>
-    </atrybuty_dokumentu>
-</naglowek>
-<pozycje>
-    <LP>1</LP>
-    <kod>PM YOS9</kod>
-    <ilosc_zamowiona>1</ilosc_zamowiona>
-    <nazwa>Pluszowy miś</nazwa>
-    <ean>5091234567890</ean>
-    <jednostka_miary>szt</jednostka_miary>
-    <opakowania>
-        <waga>12</waga>
-        <objetosc>0.02</objetosc>
-        <jedn_podstawowych_w_kartonie>10</jedn_podstawowych_w_kartonie>
-        <jedn_podstawowych_na_palecie>100</jedn_podstawowych_na_palecie>
-    </opakowania>
-    <atrybuty>
-        <nazwa>nr_LOT</nazwa>
-        <wartosc>ABCD826</wartosc>
-    </atrybuty>
-</pozycje>
-<pozycje>
-    <LP>2</LP>
-    <kod>GK A314</kod>
-    <nazwa>Gumowa kaczuszka</nazwa>
-    <ean>5090987654321</ean>
-    <jednostka_miary>szt</jednostka_miary>
-    <ilosc_zamowiona>4</ilosc_zamowiona>
-</pozycje>
+<?xml version="1.0" encoding="UTF-8" ?>
+<dokument>
+    <naglowek>
+        <typ>OUT</typ>
+        <zleceniodawca>Zlec_1</zleceniodawca>
+        <centrum_logistyczne>CL_Lodz</centrum_logistyczne>
+        <data_realizacji>2021-07-10</data_realizacji>
+        <priorytet>1</priorytet>
+        <nr_alternatywny_dokumentu>ZAM/2021/62934</nr_alternatywny_dokumentu>
+        <opis>Przykładowy opis do dokumentu</opis>
+        <kontrahent>
+            <kod>7811903679</kod>
+            <nazwa>Logsoft</nazwa>
+            <ulica>Papiernicza 7e</ulica>
+            <kod_pocztowy>92-318</kod_pocztowy>
+            <miasto>Łódź</miasto>
+            <kraj>PL</kraj>
+        </kontrahent>
+        <kurier>
+            <usluga>DHL Standard</usluga>
+            <COD>156.23</COD>
+            <kwota_ubezpieczenia>500</kwota_ubezpieczenia>
+            <telefon>555-666-777</telefon>
+            <email>klient@kontakt.pl</email>
+            <dodatkowe_info>Uwaga szkło</dodatkowe_info>
+        </kurier>
+        <atrybuty_dokumentu>
+            <atrybut>
+                <nazwa>Nr_dokumentu_celnego</nazwa>
+                <wartosc>123456</wartosc>
+            </atrybut>
+            <atrybut>
+                <nazwa>Nr_zamowienia</nazwa>
+                <wartosc>hth/2020/829347</wartosc>
+            </atrybut>
+        </atrybuty_dokumentu>
+    </naglowek>
+    <pozycje>
+        <LP>1</LP>
+        <kod>PM YOS9</kod>
+        <ilosc_zamowiona>1</ilosc_zamowiona>
+        <nazwa>Pluszowy miś</nazwa>
+        <ean>5091234567890</ean>
+        <jednostka_miary>szt</jednostka_miary>
+        <opakowania>
+            <waga>12</waga>
+            <objetosc>0.02</objetosc>
+            <jedn_podstawowych_w_kartonie>10</jedn_podstawowych_w_kartonie>
+            <jedn_podstawowych_na_palecie>100</jedn_podstawowych_na_palecie>
+        </opakowania>
+        <atrybuty_pozycji>
+        <atrybut>
+            <nazwa>nr_LOT</nazwa>
+            <wartosc>ABCD826</wartosc>
+        </atrybut>
+        <atrybut>
+            <nazwa>Status_jakosci</nazwa>
+            <wartosc>OK</wartosc>
+        </atrybut>
+        </atrybuty_pozycji>
+    </pozycje>
+    <pozycje>
+        <LP>2</LP>
+        <kod>GK A314</kod>
+        <nazwa>Gumowa kaczuszka</nazwa>
+        <ean>5090987654321</ean>
+        <jednostka_miary>szt</jednostka_miary>
+        <ilosc_zamowiona>4</ilosc_zamowiona>
+    </pozycje>
+</dokument>
+
+
 ```
 
