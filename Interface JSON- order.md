@@ -1,4 +1,4 @@
-# Lite WMS 
+# Logsoft - Lite WMS 
 # Interface wymiany danych, komunikat Dokument
 
 
