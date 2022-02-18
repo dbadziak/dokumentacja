@@ -8,29 +8,31 @@ Dokument zawiera ustandaryzowany format pozwalający wymieniać informacje zwią
 ## Obiekt naglowek
 
 
-| Pole | Wymagane | Opis | Typ danych| Pole WMS |
-|--|--|--|--|--|
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |Od wersji 
+|--|--|--|--|--|--|
 |typ| T | określa typ dokumentu przyjmowane wartości **OUT** dla dokumentów wejściowych **IN** dla dokumentów wyjściowych | varchar(5)  
 |zleceniodawca|T |kod zleceniodawcy z WMS Z punktu widzenia klienta (systemu ERP) mozna traktowac jako stałą)| nvarchar(25)  | `dord_code`
 centrum_logistyczne|T |centrum logistyczne z WMS | nvarchar(25)  |`whc_code`
 data_realizacji|N |żądana data realizacji|smalldatetime | `door_expectedCompletion`
-priorytet|N |priorytet wartiosci od 0 - 89 priorytet zero jest najwyższy| smallint |`door_expectedCompletion`
+priorytet|N |priorytet wartiosci od 0 - 89 priorytet zero jest najniższy. Priorytety 90-99 zarezerwowane jako specjalne do uzytku wewnętrznego| smallint |`door_expectedCompletion`
 nr_alternatywny_dokumentu|T |kod alternatywny zamówienia - kod zamówienia z systemu ERP klienta| nvarchar(50) | `door_alternativeCode`
-opis|N|Przykładowy opis|nvarchar(500) | `door_description`
+opis|N|Opis do dokumentu|nvarchar(500) | `door_description`
 kontrahent|T| Obiekt zawiera dane kontrahenta (klienta/dostawcy w zależności od typu dokumentu|Obiekt|
 kurier|N| Obiekt zawiara dane potrzebne do wystawiania listu przewozowego z poziomu systemu WMS|Obiekt|
 atrybuty|N| Atrybuty nagłówka dokumentu|Kolekcja|
+produkty|N| Dane słownikowe produktów wykorzystywanych w zamówiniu |Kolekcja||1.1
 
 
 ### Komunikat zwrotny
 Zawiera to co komunikat wejściowy poszerzone o pola:
 
 
-| Pole | Wymagane | Opis | Typ danych| Pole WMS |
-|--|--|--|--|--|
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |Od wersji 
+|--|--|--|--|--|--|
 OUT_nr_dokumentu| |[Tylko dla komunikatu zwrotnego] nr dokumentu w WMS|nvarchar(25)  | `ddoc_code`
 OUT_data_utworzenia| |[Tylko dla komunikatu zwrotnego] data utworzenia/importu dokumentu|Datetime | `door_dateCreated`
 OUT_data_zamkniecia| |[Tylko dla komunikatu zwrotnego] data zamknięcia dokumentu|Datetime | `door_dateClosed`
+
 
 
 
@@ -173,37 +175,44 @@ Przykład XML:
             </atrybut>
         </atrybuty_dokumentu>
 ```
-
-
-
-## Pozycje dokumentu
-Reprezentuje pozycje dokumentu. 
-
-
-| Pole | Wymagane | Opis | Typ danych| Pole WMS |
-|--|--|--|--|--|
-|LP|N | Numer linii - pole wykorzystywane w przypadku gdy systemy ERP w  komunikatach zwrotnych wymagają tej informacji np. SAP R3| int |`dori_lineNr`
-|kod|T |kod porduktu jednoznacznie identyfikuje produkt musi byc unikatowy w obrębie jednego zleceniodawcy|nvarchar(50) |`prd_code`
-|ilosc_zamowiona|T |Ilość zamówiona w podstawowych jednostkach miary|decimal(18,6) |`dori_basicQuantity`
+## Produkty
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |Od wersji 
+|--|--|--|--|--|--|
 |nazwa|N |nazwa produktu (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostanie wykorzystany kod produktu). Nazwa nie musi byc unikatowa.|nvarchar(250) |`prd_name`
 |EAN|N |kod kreskowy dla podstawowej jednostki miary (np EAN13) - kod nie musi byc unikatowy. W przypadku wystepienia innego kodu niż wczesniej dodany oryginalny wpis sie nie zaktulizuje, dodany zostanie nowy z bieżacym kodem |varchar(25) |`prd_name`
-|jednostka_miary|N |podstawowa jednostka miary. Kod jednostki miary pownien byc zgodni ze słownikiem w systemie WMS. (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostań domyślna jednostka miary) |varchar(25) |`uom_code`
-|SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy|varchar(25) |`dori_SSCC`
-|typ_palety|N |typ nośnika stosowany tylko w przypadku awiza dostawy. Używany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
 |opakowania|N |Struktura pakowania produktu sekcja w zasadzie powinna być wstawiana głownie w przypadku awizacji dostaw.|kolekcja
-|atrybuty|N |Atrybuty nagłówka dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
+grupa_magazynowa|N |Powinna odpowiadac istniejącej grupie magazynowej w sytemie WMS|varchar(250)||1.1
+|atrybuty_produktu|N |Atrybuty nagłówka dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
 
 ### Opakowania
 
 Struktura pakowania ***nie aktualizuje sie*** zakładana jest przy pierwszym dodaniu produktu. 
 
-| Pole | Wymagane | Opis | Typ danych| Pole WMS |
-|--|--|--|--|--|
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |Od wersji 
+|--|--|--|--|--|--|
+|jednostka_miary|N |podstawowa jednostka miary. Kod jednostki miary pownien byc zgodny ze słownikiem w systemie WMS. (jeśli pole puste przy zakładaniu nowego produktu jako nazwa zostań domyślna jednostka miary) |varchar(25) |`uom_code`
 |waga|N |Waga brutto dla podstawowej jednostki miary wyrazona w ***kg***| decimal(18,6) |pplv_weight
 |objetosc|N |Objętość podstawowej jednostki miary wyrazona w ***m3***| decimal(18,6) |pplv_volume
-|jedn_podstawowych_w_kartonie|N |ilość jednostek podatwowych w kartonie. Tworzony jest nowy poziom struktury pakowania. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `pplv_calcAsOpa` | decimal(18,6) |
-|jedn_podstawowych_na_palecie|N |ilość jednostek podatwowych w kartonie. Tworzony jest nowy poziom struktury pakowania.Ten poziom opakowań oznaczany jest automatycznie jako paleta `pplv_isLoadUnit` | decimal(18,6) |
+|jedn_podstawowych_w_opakowaniu|N |ilość jednostek podatwowych w opakowaniu(kartonie). Tworzony jest nowy poziom struktury pakowania. Ten poziom opakowań oznaczany jest automatycznie jako opakowanie zbiorcze `pplv_calcAsOpa` | decimal(18,6) |
+|jednostka_miary_opakowanie|N |jednostka miary dla opakowania (kartonu) |varchar(25) |`uom_code`|1.1
+|jedn_podstawowych_na_palecie|N |ilość jednostek podatwowych na palecie. Tworzony jest nowy poziom struktury pakowania.Ten poziom opakowań oznaczany jest automatycznie jako paleta `pplv_isLoadUnit` | decimal(18,6) |
+|jednostka_miary_paleta|N |jednostka miary dla palety |varchar(25) |`uom_code`|1.1
       
+
+## Pozycja dokumentu
+Reprezentuje pozycje dokumentu. 
+
+
+| Pole | Wymagane | Opis | Typ danych| Pole WMS |Od wersji 
+|--|--|--|--|--|--|
+|LP|N | Numer linii - pole wykorzystywane w przypadku gdy systemy ERP w  komunikatach zwrotnych wymagają tej informacji np. SAP R3| int |`dori_lineNr`
+|kod|T |kod porduktu jednoznacznie identyfikuje produkt musi byc unikatowy w obrębie jednego zleceniodawcy|nvarchar(50) |`prd_code`
+|ilosc_zamowiona|T |Ilość zamówiona w podstawowych jednostkach miary|decimal(18,6) |`dori_basicQuantity`
+|SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy **typ = IN** |varchar(25) |`dori_SSCC`
+|typ_palety|N |typ nośnika stosowany tylko w przypadku awiza dostawy. Używany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
+|atrybuty|N |Atrybuty nagłówka dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
+
+
 
 ### Komunikat zwrotny
 Zawiera to co komunikat wejściowy poszerzone o pola:
