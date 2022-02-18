@@ -14,12 +14,12 @@ Dokument zawiera ustandaryzowany format pozwalający wymieniać informacje zwią
 |zleceniodawca|T |kod zleceniodawcy z WMS Z punktu widzenia klienta (systemu ERP) mozna traktowac jako stałą)| nvarchar(25)  | `dord_code`
 centrum_logistyczne|T |centrum logistyczne z WMS | nvarchar(25)  |`whc_code`
 data_realizacji|N |żądana data realizacji|smalldatetime | `door_expectedCompletion`
-priorytet|N |priorytet wartiosci od 0 - 89 priorytet zero jest najniższy. Priorytety 90-99 zarezerwowane jako specjalne do uzytku wewnętrznego| smallint |`door_expectedCompletion`
+priorytet|N |priorytet wartiosci od 0 - 89 priorytet zero jest najniższy. Priorytety 90-99 zarezerwowane jako specjalne do uzytku wewnętrznego| smallint |`door_priority`
 nr_alternatywny_dokumentu|T |kod alternatywny zamówienia - kod zamówienia z systemu ERP klienta| nvarchar(50) | `door_alternativeCode`
 opis|N|Opis do dokumentu|nvarchar(500) | `door_description`
 kontrahent|T| Obiekt zawiera dane kontrahenta (klienta/dostawcy w zależności od typu dokumentu|Obiekt|
 kurier|N| Obiekt zawiara dane potrzebne do wystawiania listu przewozowego z poziomu systemu WMS|Obiekt|
-atrybuty|N| Atrybuty nagłówka dokumentu|Kolekcja|
+atrybuty_dokumentu|N| Atrybuty nagłówka dokumentu|Kolekcja|
 produkty|N| Dane słownikowe produktów wykorzystywanych w zamówiniu |Kolekcja||1.1
 
 
@@ -131,7 +131,7 @@ Przykład XML:
 </kurier>
 ```
 
-## Kolekcja atrybuty
+## Kolekcja atrybuty_dokumentu
 
 
 Kolekcja atrybuty może posiadać Max 20 obiektów. Atrybuty, których nazwa będzie niezgodna z nazwą w definicji atrybutów systemu WMS będą ignorowane. Niewymagane
@@ -210,7 +210,7 @@ Reprezentuje pozycje dokumentu.
 |ilosc_zamowiona|T |Ilość zamówiona w podstawowych jednostkach miary|decimal(18,6) |`dori_basicQuantity`
 |SSCC|N |Numer nośnika stosowany tylko w przypadku awiza dostawy **typ = IN** |varchar(25) |`dori_SSCC`
 |typ_palety|N |typ nośnika stosowany tylko w przypadku awiza dostawy. Używany tylko w przypadku wypełniania pola SSCC|varchar(50) |`dori_luType`
-|atrybuty|N |Atrybuty nagłówka dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
+|atrybuty_pozycji|N |Atrybuty pozycji dokumentu Jeśli nie będzie zdefiniowanego atrybutu Status jakości wstawiona zostanie wartość domyślna dla statusu jakości|kolekcja
 
 
 
@@ -309,76 +309,103 @@ Przykład dokumet typu OUT:
 Przykład skonwertowany do formatu XML
 
 ```XML
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <dokument>
-    <naglowek>
-        <typ>OUT</typ>
-        <zleceniodawca>Zlec_1</zleceniodawca>
-        <centrum_logistyczne>CL_Lodz</centrum_logistyczne>
-        <data_realizacji>2021-07-10</data_realizacji>
-        <priorytet>1</priorytet>
-        <nr_alternatywny_dokumentu>ZAM/2021/62934</nr_alternatywny_dokumentu>
-        <opis>Przykładowy opis do dokumentu</opis>
-        <kontrahent>
-            <kod>7811903679</kod>
-            <nazwa>Logsoft</nazwa>
-            <ulica>Papiernicza 7e</ulica>
-            <kod_pocztowy>92-318</kod_pocztowy>
-            <miasto>Łódź</miasto>
-            <kraj>PL</kraj>
-        </kontrahent>
-        <kurier>
-            <usluga>DHL Standard</usluga>
-            <COD>156.23</COD>
-            <kwota_ubezpieczenia>500</kwota_ubezpieczenia>
-            <telefon>555-666-777</telefon>
-            <email>klient@kontakt.pl</email>
-            <dodatkowe_info>Uwaga szkło</dodatkowe_info>
-        </kurier>
-        <atrybuty_dokumentu>
-            <atrybut>
-                <nazwa>Nr_dokumentu_celnego</nazwa>
-                <wartosc>123456</wartosc>
-            </atrybut>
-            <atrybut>
-                <nazwa>Nr_zamowienia</nazwa>
-                <wartosc>hth/2020/829347</wartosc>
-            </atrybut>
-        </atrybuty_dokumentu>
-    </naglowek>
-    <pozycje>
-        <LP>1</LP>
-        <kod>PM YOS9</kod>
-        <ilosc_zamowiona>1</ilosc_zamowiona>
-        <nazwa>Pluszowy miś</nazwa>
-        <ean>5091234567890</ean>
-        <jednostka_miary>szt</jednostka_miary>
-        <opakowania>
-            <waga>12</waga>
-            <objetosc>0.02</objetosc>
-            <jedn_podstawowych_w_kartonie>10</jedn_podstawowych_w_kartonie>
-            <jedn_podstawowych_na_palecie>100</jedn_podstawowych_na_palecie>
-        </opakowania>
-        <atrybuty_pozycji>
-        <atrybut>
-            <nazwa>nr_LOT</nazwa>
-            <wartosc>ABCD826</wartosc>
-        </atrybut>
-        <atrybut>
-            <nazwa>Status_jakosci</nazwa>
-            <wartosc>OK</wartosc>
-        </atrybut>
-        </atrybuty_pozycji>
-    </pozycje>
-    <pozycje>
-        <LP>2</LP>
-        <kod>GK A314</kod>
-        <nazwa>Gumowa kaczuszka</nazwa>
-        <ean>5090987654321</ean>
-        <jednostka_miary>szt</jednostka_miary>
-        <ilosc_zamowiona>4</ilosc_zamowiona>
-    </pozycje>
+	<naglowek>
+		<typ>OUT</typ>
+		<zleceniodawca>Zlec_1</zleceniodawca>
+		<centrum_logistyczne>CL_Lodz</centrum_logistyczne>
+		<data_realizacji>2021-07-10</data_realizacji>
+		<priorytet>1</priorytet>
+		<nr_alternatywny_dokumentu>ZAM/2021/62934</nr_alternatywny_dokumentu>
+		<opis>Przykładowy opis do dokumentu</opis>
+		<kontrahent>
+			<kod>7811903679</kod>
+			<nazwa>Logsoft</nazwa>
+			<ulica>Papiernicza 7e</ulica>
+			<kod_pocztowy>92-318</kod_pocztowy>
+			<miasto>Łódź</miasto>
+			<kraj>PL</kraj>
+		</kontrahent>
+		<kurier>
+			<usluga>DHL Standard</usluga>
+			<COD>156.23</COD>
+			<kwota_ubezpieczenia>500</kwota_ubezpieczenia>
+			<telefon>555-666-777</telefon>
+			<email>klient@kontakt.pl</email>
+			<dodatkowe_info>Uwaga szkło</dodatkowe_info>
+		</kurier>
+		<atrybuty_dokumentu>
+			<atrybut>
+				<nazwa>Nr_dokumentu_celnego</nazwa>
+				<wartosc>123456</wartosc>
+			</atrybut>
+			<atrybut>
+				<nazwa>Nr_zamowienia</nazwa>
+				<wartosc>hth/2020/829347</wartosc>
+			</atrybut>
+		</atrybuty_dokumentu>
+	</naglowek>
+	<produkty>
+		<produkt>
+			<kod>PM YOS9</kod>
+			<nazwa>Pluszowy miś</nazwa>
+			<ean>5091234567890</ean>
+			<grupa_magazynowa>Zabawki</grupa_magazynowa>
+			<opakowania>
+				<jednostka_miary>szt</jednostka_miary>
+				<waga>12</waga>
+				<objetosc>0.02</objetosc>
+				<jedn_podstawowych_w_opakowaniu>10</jedn_podstawowych_w_opakowaniu>
+				<jednostka_miary_opakowanie>KRT</jednostka_miary_opakowanie>
+				<jedn_podstawowych_na_palecie>100</jedn_podstawowych_na_palecie>
+				<jednostka_miary_paleta>EP</jednostka_miary_paleta>
+			</opakowania>
+			<atrybuty_produktu>
+				<atrybut>
+					<nazwa>Producent</nazwa>
+					<wartosc>Smyk</wartosc>
+				</atrybut>
+				<atrybut>
+					<nazwa>Kolor</nazwa>
+					<wartosc>Biały</wartosc>
+				</atrybut>
+			</atrybuty_produktu>
+		</produkt>
+		<produkt>
+			<kod>GK A314</kod>
+			<nazwa>Krem do rąk 250ml</nazwa>
+			<ean>5090987654321</ean>
+			<grupa_magazynowa>Kosmetyki</grupa_magazynowa>
+			<opakowania>
+				<jednostka_miary>szt</jednostka_miary>
+			</opakowania>
+		</produkt>
+	</produkty>
+	<pozycje>
+		<pozycja>
+			<LP>1</LP>
+			<kod>PM YOS9</kod>
+			<ilosc_zamowiona>1</ilosc_zamowiona>
+		</pozycja>
+		<pozycja>
+			<LP>2</LP>
+			<kod>GK A314</kod>
+			<ilosc_zamowiona>4</ilosc_zamowiona>
+			<atrybuty_pozycji>
+				<atrybut>
+					<nazwa>nr_LOT</nazwa>
+					<wartosc>ABCD826</wartosc>
+				</atrybut>
+				<atrybut>
+					<nazwa>Status_jakosci</nazwa>
+					<wartosc>OK</wartosc>
+				</atrybut>
+			</atrybuty_pozycji>
+		</pozycja>
+	</pozycje>
 </dokument>
+
 
 
 ```
