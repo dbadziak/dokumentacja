@@ -228,81 +228,111 @@ OUT_ilosc_zrealizowana | N |[Tylko dla komunikatu zwrotnego] Zrealizowana iloś�
 Przykład dokumet typu OUT:
 ```json
 {
-  "dokument": {
-    "naglowek": {
-      "typ": "OUT",
-      "zleceniodawca": "Zlec_1",
-      "centrum_logistyczne": "CL_Lodz",
-      "data_realizacji": "2021-07-10",
-      "priorytet": "1",
-      "nr_alternatywny_dokumentu": "ZAM/2021/62934",
-      "opis": "Przykładowy opis do dokumentu",
-      "kontrahent": {
-        "kod": "7811903679",
-        "nazwa": "Logsoft",
-        "ulica": "Papiernicza 7e",
-        "kod_pocztowy": "92-318",
-        "miasto": "Łódź",
-        "kraj": "PL"
-      },
-      "kurier": {
-        "usluga": "DHL Standard",
-        "COD": "156.23",
-        "kwota_ubezpieczenia": "500",
-        "telefon": "555-666-777",
-        "email": "klient@kontakt.pl",
-        "dodatkowe_info": "Uwaga szkło"
-      },
-      "atrybuty_dokumentu": {
-        "atrybut": [
-          {
-            "nazwa": "Nr_dokumentu_celnego",
-            "wartosc": "123456"
-          },
-          {
-            "nazwa": "Nr_zamowienia",
-            "wartosc": "hth/2020/829347"
-          }
-        ]
-      }
-    },
-    "pozycje": [
-      {
-        "LP": "1",
-        "kod": "PM YOS9",
-        "ilosc_zamowiona": "1",
-        "nazwa": "Pluszowy miś",
-        "ean": "5091234567890",
-        "jednostka_miary": "szt",
-        "opakowania": {
-          "waga": "12",
-          "objetosc": "0.02",
-          "jedn_podstawowych_w_kartonie": "10",
-          "jedn_podstawowych_na_palecie": "100"
-        },
-        "atrybuty_pozycji": {
-          "atrybut": [
-            {
-              "nazwa": "nr_LOT",
-              "wartosc": "ABCD826"
-            },
-            {
-              "nazwa": "Status_jakosci",
-              "wartosc": "OK"
-            }
-          ]
-        }
-      },
-      {
-        "LP": "2",
-        "kod": "GK A314",
-        "nazwa": "Gumowa kaczuszka",
-        "ean": "5090987654321",
-        "jednostka_miary": "szt",
-        "ilosc_zamowiona": "4"
-      }
-    ]
-  }
+	"dokument": {
+		"naglowek": {
+			"typ": "OUT",
+			"zleceniodawca": "Zlec_1",
+			"centrum_logistyczne": "CL_Lodz",
+			"data_realizacji": "2021-07-10",
+			"priorytet": "1",
+			"nr_alternatywny_dokumentu": "ZAM/2021/62934",
+			"opis": "Przykładowy opis do dokumentu",
+			"kontrahent": {
+				"kod": "7811903679",
+				"nazwa": "Logsoft",
+				"ulica": "Papiernicza 7e",
+				"kod_pocztowy": "92-318",
+				"miasto": "Łódź",
+				"kraj": "PL"
+			},
+			"kurier": {
+				"usluga": "DHL Standard",
+				"COD": "156.23",
+				"kwota_ubezpieczenia": "500",
+				"telefon": "555-666-777",
+				"email": "klient@kontakt.pl",
+				"dodatkowe_info": "Uwaga szkło"
+			},
+			"atrybuty_dokumentu": {
+				"atrybut": [
+					{
+						"nazwa": "Nr_dokumentu_celnego",
+						"wartosc": "123456"
+					},
+					{
+						"nazwa": "Nr_zamowienia",
+						"wartosc": "hth/2020/829347"
+					}
+				]
+			}
+		},
+		"produkty": {
+			"produkt": [
+				{
+					"kod": "PM YOS9",
+					"nazwa": "Pluszowy miś",
+					"ean": "5091234567890",
+					"grupa_magazynowa": "Zabawki",
+					"opakowania": {
+						"jednostka_miary": "szt",
+						"waga": "12",
+						"objetosc": "0.02",
+						"jedn_podstawowych_w_opakowaniu": "10",
+						"jednostka_miary_opakowanie": "KRT",
+						"jedn_podstawowych_na_palecie": "100",
+						"jednostka_miary_paleta": "EP"
+					},
+					"atrybuty_produktu": {
+						"atrybut": [
+							{
+								"nazwa": "Producent",
+								"wartosc": "Smyk"
+							},
+							{
+								"nazwa": "Kolor",
+								"wartosc": "Biały"
+							}
+						]
+					}
+				},
+				{
+					"kod": "GK A314",
+					"nazwa": "Krem do rąk 250ml",
+					"ean": "5090987654321",
+					"grupa_magazynowa": "Kosmetyki",
+					"opakowania": {
+						"jednostka_miary": "szt"
+					}
+				}
+			]
+		},
+		"pozycje": {
+			"pozycja": [
+				{
+					"LP": "1",
+					"kod": "PM YOS9",
+					"ilosc_zamowiona": "1"
+				},
+				{
+					"LP": "2",
+					"kod": "GK A314",
+					"ilosc_zamowiona": "4",
+					"atrybuty_pozycji": {
+						"atrybut": [
+							{
+								"nazwa": "nr_LOT",
+								"wartosc": "ABCD826"
+							},
+							{
+								"nazwa": "Status_jakosci",
+								"wartosc": "OK"
+							}
+						]
+					}
+				}
+			]
+		}
+	}
 }
 ```
 ### XML
