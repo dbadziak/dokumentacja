@@ -211,7 +211,7 @@ Represents a document item.
 |ordered_quantity|T | quantity ordered in basic units of measurement |decimal(18,6) | `dori_basicQuantity`
 SSCC|N|Pallet number Can be optionally used only in Purchase order **type = IN** |varchar(25) |`dori_SSCC` 
 | pallet_type |N| pallet type only used for delivery advice. Used only when completing the SSCC|varchar(50) |`dori_luType` 
-attribute |N | Document Item atributes. If no Quality status attribute is defined a default value for Quality status is inserted.|collection
+item_attribute |N | Document Item atributes. If no Quality status attribute is defined a default value for Quality status is inserted.|collection
 
 ### Return message
 Contains the same information as the input message extended with fields:
