@@ -7,7 +7,7 @@ A document contains a standardized format to exchange information related to pur
 
 ## Header object
 
-
+bbbbbbbbbbbbb
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
 | type | T | specifies the type of document **OUT** for input documents **IN** for output documents | varchar(5)  
