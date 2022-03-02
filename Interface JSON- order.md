@@ -1,4 +1,5 @@
 # Logsoft - Lite WMS 
+
 # Interface wymiany danych, komunikat Dokument
 
 Dokument zawiera ustandaryzowany format pozwalający wymieniać informacje związane z awizacją dostaw i zamówieniami od klientów.
@@ -57,7 +58,7 @@ Przykład JSON:
 "firm": {
                 "code": "F00001",
                 "name": "Logsoft",
-                "street": "Paper 7e",
+                "street": "Papiernicza 7e",
                 "postal_code": "93-400",
                 "city": "Łódź",
                 "country": "PL"
@@ -222,14 +223,16 @@ Zawiera to co komunikat wejściowy poszerzone o pola:
 |OUT_quantity_confirmed | N |[Tylko dla komunikatu zwrotnego] Zrealizowana ilość w jednostkach podstawowych |decimal(18,6)|`door_confirmedQuantity`
 
 
+## Przykłady
+
 Przykład dokumetu typu IN:
 ```json
 {
   "document": {
     "header": {
       "type": "IN",
-      "orderer": "Sunway",
-      "logistics_center": "CL HART MPL",
+      "orderer": "Acme",
+      "logistics_center": "CL 1",
       "completion_date": "2021-07-23",
       "priority": "1",
       "document_alternative_code": "PO/2021/62934",
@@ -306,8 +309,8 @@ Przykład dokumetu typu IN dla potwierdzenia:
   "document": {
     "header": {
       "type": "IN_CONF",
-      "orderer": "Sunway",
-      "logistics_center": "CL HART MPL",
+      "orderer": "Acme",
+      "logistics_center": "CL 1",
       "completion_date": "2021-07-23",
       "priority": "1",
       "document_alternative_code": "PO/2021/62934",
@@ -363,6 +366,7 @@ Przykład dokumetu typu IN dla potwierdzenia:
     }
   }
 }
+```
 
 Przykład dokumetu typu OUT:
 ```json
@@ -370,8 +374,8 @@ Przykład dokumetu typu OUT:
   "document": {
     "header": {
       "type": "OUT",
-      "orderer": "Sunway",
-      "logistics_center": "CL HART MPL",
+      "orderer": "Acme",
+      "logistics_center": "CL 1",
       "completion_date": "2022-02-10",
       "priority": "1",
       "document_alternative_code": "ZAM/2021/62934",
@@ -430,20 +434,21 @@ Przykład dokumetu typu OUT:
   }
 }
 ```
+
 Przykład dokumetu typu OUT dla potwierdzenia:
 ```json
 {
   "document": {
     "header": {
       "type": "OUT_CONF",
-      "orderer": "Sunway",
-      "logistics_center": "CL HART MPL",
+      "orderer": "Acme",
+      "logistics_center": "CL 1",
       "completion_date": "2022-02-10",
       "priority": "1",
       "document_alternative_code": "ZAM/2021/62934",
       "OUT_document_nr": "SWWZ000001",
       "OUT_date_creation": "2022-02-05",
-      "OUT_date_closed": "022-02-10",
+      "OUT_date_closed": "2022-02-10",
       "firm": {
         "code": "7811903679",
         "name": "Logsoft",
