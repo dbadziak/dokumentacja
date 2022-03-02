@@ -1,7 +1,7 @@
 # Logsoft - Lite WMS 
 # Interface wymiany danych, komunikat Dokument
 
-
+aaaaaaaaaaaaaaaaaaaaaaaaaa
 Dokument zawiera ustandaryzowany format pozwalający wymieniać informacje związane z awizacją dostaw i zamówieniami od klientów.
 
 
