@@ -10,7 +10,7 @@ A document contains a standardized format to exchange information related to pur
 
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
-| type | T | specifies the type of document **OUT** for input documents **IN** for output documents | varchar(5)  
+| type | T | specifies the type of document **OUT** for input documents **IN** for output documents. For confirmations **CONFIRM-OUT** and **CONFIRM-IN** respectively.  | varchar(5)  
 orderer|T| From the point of view of the client (ERP system) it can be treated as a constant) | nvarchar(25) | `dord_code` 
 logistics_center | T | logistics center with WMS | nvarchar(25) | `whc_code`
 completion_date |T| requested completion date | smalldatetime | `door_expectedCompletion`
@@ -19,7 +19,7 @@ document_alternative_code|T | alternative order code - order code from customer 
 description|N|Description of the document|nvarchar(500) | `door_description`
 firm |T| The object contains the firm data (customer/supplier) depending on the document type| Object
 courier|N| The object contains the data needed to issue a waybill from the WMS.
-attributes|N| Attributes of the document header|Collection|
+document_attribute|N| Attributes of the document header|Collection|
 products|N| Dictionary data of products used in the order | Collection||1.1
 
 ### Return message
@@ -58,19 +58,19 @@ JSON example:
                 "street": "Paper 7e",
                 "postal_code": "93-400",
                 "city": "Łódź",
-                "country": "PL".
+                "country": "PL"
             },
 ```
 
 XML example:
 ```XML
-<firm>.
-	<code>F00001</code>.
-	<name>Logsoft</name>.
-	<street>Papiernicza 7e</street>.
-	<postal_code>93-400</postal_code>.
-	<city>Lodz</city>.
-	<country>PL</country>.
+<firm>
+	<code>F00001</code>
+	<name>Logsoft</name>
+	<street>Papiernicza 7e</street>
+	<postal_code>93-400</postal_code>
+	<city>Lodz</city>
+	<country>PL</country>
 <firm>
 ```
 
@@ -110,18 +110,18 @@ JSON example:
                 "insurance_amount": "160",
                 "phone": "555-666-777",
                 "email": "klient@kontakt.pl",
-                "additional_info": "additional_info",
+                "additional_info": "additional_info"
              },
 ```
 
 XML example:
 ```XML
 <courier>
-	<service>DHL Standard</service>.
-	<CODE>156.23</COD>.
+	<service>DHL Standard</service>
+	<CODE>156.23</COD>
 	<insurance_amount>500</insurance_amount>
 	<telefon>555-666-777</telefon>
-	<email>klient@kontakt.pl</email>.
+	<email>klient@kontakt.pl</email>
 	<additional_info>Note glass<additional_info>
 </courier>
 ```
@@ -158,16 +158,16 @@ JSON example:
 XML example:
 
 ```XML
-        <document_attribute>.
-            <attribute>.
-                <name> customs_number</name>.
-                <value>123456</value>.
-            </attribute>.
-            <attribute>.
-                <name> order_number</name>.
+        <document_attribute>
+            <attribute>
+                <name> customs_number</name>
+                <value>123456</value>
+            </attribute>
+            <attribute>
+                <name> order_number</name>
                 <value>hth/2020/829347</value>
-            </attribute>.
-        </document_attribute>.
+            </attribute>
+        </document_attribute>
 ```
 
 ## Products
