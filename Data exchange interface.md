@@ -226,80 +226,110 @@ OUT_quantity_confirmed | N |[Only for return message] Confirmed quantity in basi
 Przykład dokumet typu OUT:
 ```json
 {
-  "dokument": {
-    "naglowek": {
-      "typ": "OUT",
-      "zleceniodawca": "Zlec_1",
-      "centrum_logistyczne": "CL_Lodz",
-      "data_realizacji": "2021-07-10",
-      "priorytet": "1",
-      "nr_alternatywny_dokumentu": "ZAM/2021/62934",
-      "opis": "Przykładowy opis do dokumentu",
-      "kontrahent": {
-        "kod": "7811903679",
-        "nazwa": "Logsoft",
-        "ulica": "Papiernicza 7e",
-        "kod_pocztowy": "92-318",
-        "miasto": "Łódź",
-        "kraj": "PL"
+  "document": {
+    "header": {
+      "type": "OUT",
+      "orderer": "Zlec_1",
+      "logistics_center": "CL_Lodz",
+      "completion_date": "2021-07-10",
+      "priority": "1",
+      "document_alternative_code": "ZAM/2021/62934",
+      "description": "Sample description for the document",
+      "firm": {
+        "code": "7811903679",
+        "name": "Logsoft",
+        "street": "Papiernicza 7e",
+        "postal_code": "92-318",
+        "city": "Łódź",
+        "country": "PL"
       },
-      "kurier": {
-        "usluga": "DHL Standard",
+      "courier": {
+        "service": "DHL Standard",
         "COD": "156.23",
-        "kwota_ubezpieczenia": "500",
-        "telefon": "555-666-777",
+        "insurance_amount": "500",
+        "telephone": "555-666-777",
         "email": "klient@kontakt.pl",
-        "dodatkowe_info": "Uwaga szkło"
+        "additional_info": "Sample additional info for courier"
       },
-      "atrybuty_dokumentu": {
-        "atrybut": [
+      "document_attributes": {
+        "attribute": [
           {
-            "nazwa": "Nr_dokumentu_celnego",
-            "wartosc": "123456"
+            "name": "Custom_document_No",
+            "value": "123456"
           },
           {
-            "nazwa": "Nr_zamowienia",
-            "wartosc": "hth/2020/829347"
+            "name": "Order_nr",
+            "value": "hth/2020/829347"
           }
         ]
       }
     },
-    "pozycje": [
-      {
-        "LP": "1",
-        "kod": "PM YOS9",
-        "ilosc_zamowiona": "1",
-        "nazwa": "Pluszowy miś",
-        "ean": "5091234567890",
-        "jednostka_miary": "szt",
-        "opakowania": {
-          "waga": "12",
-          "objetosc": "0.02",
-          "jedn_podstawowych_w_kartonie": "10",
-          "jedn_podstawowych_na_palecie": "100"
+    "products": {
+      "product": [
+        {
+          "code": "PM YOS9",
+          "name": "Teddy bear",
+          "ean": "5091234567890",
+          "warehouse_group": "Toys",
+          "packaging_structure": {
+            "unit_of_measure": "szt",
+            "weight": "12",
+            "volume": "0.02",
+            "units_in_package": "10",
+            "unit_of_package": "KRT",
+            "units_on_pallet": "100",
+            "unit_of_pallet": "EP"
+          },
+          "products_attributes": {
+            "attribute": [
+              {
+                "name": "Producer",
+                "value": "LOBITO"
+              },
+              {
+                "name": "Colour",
+                "value": "White"
+              }
+            ]
+          }
         },
-        "atrybuty_pozycji": {
-          "atrybut": [
-            {
-              "nazwa": "nr_LOT",
-              "wartosc": "ABCD826"
-            },
-            {
-              "nazwa": "Status_jakosci",
-              "wartosc": "OK"
-            }
-          ]
+        {
+          "code": "GK A314",
+          "name": "Hand cream 250ml",
+          "ean": "5090987654321",
+          "grupa_magazynowa": "Cosmetics",
+          "packaging_structure": {
+            "unit_of_measure": "szt"
+          }
         }
-      },
-      {
-        "LP": "2",
-        "kod": "GK A314",
-        "nazwa": "Gumowa kaczuszka",
-        "ean": "5090987654321",
-        "jednostka_miary": "szt",
-        "ilosc_zamowiona": "4"
-      }
-    ]
+      ]
+    },
+    "items": {
+      "item": [
+        {
+          "LN": "1",
+          "code": "PM YOS9",
+          "ordered_quantity": "1"
+        },
+        {
+          "LN": "2",
+          "code": "GK A314",
+          "ordered_quantity": "4",
+          "item_attributes": {
+            "attribute": [
+              {
+                "name": "nr_LOT",
+                "value": "ABCD826"
+              },
+              {
+                "name": "Quality_status",
+                "value": "OK"
+              }
+            ]
+          }
+        }
+      ]
+    }
   }
 }
 ```
@@ -307,76 +337,103 @@ Przykład dokumet typu OUT:
 Przykład skonwertowany do formatu XML
 
 ```XML
-<?xml version="1.0" encoding="UTF-8" ?>
-<dokument>
-    <naglowek>
-        <typ>OUT</typ>
-        <zleceniodawca>Zlec_1</zleceniodawca>
-        <centrum_logistyczne>CL_Lodz</centrum_logistyczne>
-        <data_realizacji>2021-07-10</data_realizacji>
-        <priorytet>1</priorytet>
-        <nr_alternatywny_dokumentu>ZAM/2021/62934</nr_alternatywny_dokumentu>
-        <opis>Przykładowy opis do dokumentu</opis>
-        <kontrahent>
-            <kod>7811903679</kod>
-            <nazwa>Logsoft</nazwa>
-            <ulica>Papiernicza 7e</ulica>
-            <kod_pocztowy>92-318</kod_pocztowy>
-            <miasto>Łódź</miasto>
-            <kraj>PL</kraj>
-        </kontrahent>
-        <kurier>
-            <usluga>DHL Standard</usluga>
-            <COD>156.23</COD>
-            <kwota_ubezpieczenia>500</kwota_ubezpieczenia>
-            <telefon>555-666-777</telefon>
-            <email>klient@kontakt.pl</email>
-            <dodatkowe_info>Uwaga szkło</dodatkowe_info>
-        </kurier>
-        <atrybuty_dokumentu>
-            <atrybut>
-                <nazwa>Nr_dokumentu_celnego</nazwa>
-                <wartosc>123456</wartosc>
-            </atrybut>
-            <atrybut>
-                <nazwa>Nr_zamowienia</nazwa>
-                <wartosc>hth/2020/829347</wartosc>
-            </atrybut>
-        </atrybuty_dokumentu>
-    </naglowek>
-    <pozycje>
-        <LP>1</LP>
-        <kod>PM YOS9</kod>
-        <ilosc_zamowiona>1</ilosc_zamowiona>
-        <nazwa>Pluszowy miś</nazwa>
-        <ean>5091234567890</ean>
-        <jednostka_miary>szt</jednostka_miary>
-        <opakowania>
-            <waga>12</waga>
-            <objetosc>0.02</objetosc>
-            <jedn_podstawowych_w_kartonie>10</jedn_podstawowych_w_kartonie>
-            <jedn_podstawowych_na_palecie>100</jedn_podstawowych_na_palecie>
-        </opakowania>
-        <atrybuty_pozycji>
-        <atrybut>
-            <nazwa>nr_LOT</nazwa>
-            <wartosc>ABCD826</wartosc>
-        </atrybut>
-        <atrybut>
-            <nazwa>Status_jakosci</nazwa>
-            <wartosc>OK</wartosc>
-        </atrybut>
-        </atrybuty_pozycji>
-    </pozycje>
-    <pozycje>
-        <LP>2</LP>
-        <kod>GK A314</kod>
-        <nazwa>Gumowa kaczuszka</nazwa>
-        <ean>5090987654321</ean>
-        <jednostka_miary>szt</jednostka_miary>
-        <ilosc_zamowiona>4</ilosc_zamowiona>
-    </pozycje>
-</dokument>
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<header>
+		<type>OUT</type>
+		<orderer>Zlec_1</orderer>
+		<logistics_center>CL_Lodz</logistics_center>
+		<completion_date>2021-07-10</completion_date>
+		<priority>1</priority>
+		<document_alternative_code>ZAM/2021/62934</document_alternative_code>
+		<description>Sample description for the document</description>
+		<firm>
+			<code>7811903679</code>
+			<name>Logsoft</name>
+			<street>Papiernicza 7e</street>
+			<postal_code>92-318</postal_code>
+			<city>Łódź</city>
+			<country>PL</country>
+		</firm>
+		<courier>
+			<service>DHL Standard</service>
+			<COD>156.23</COD>
+			<insurance_amount>500</insurance_amount>
+			<telephone>555-666-777</telephone>
+			<email>klient@kontakt.pl</email>
+			<additional_info>Sample additional info for courier</additional_info>
+		</courier>
+		<document_attributes>
+			<attribute>
+				<name>Custom_document_No</name>
+				<value>123456</value>
+			</attribute>
+			<attribute>
+				<name>Order_nr</name>
+				<value>hth/2020/829347</value>
+			</attribute>
+		</document_attributes>
+	</header>
+	<products>
+		<product>
+			<code>PM YOS9</code>
+			<name>Teddy bear</name>
+			<ean>5091234567890</ean>
+			<warehouse_group>Toys</warehouse_group>
+			<packaging_structure>
+				<unit_of_measure>szt</unit_of_measure>
+				<weight>12</weight>
+				<volume>0.02</volume>
+				<units_in_package>10</units_in_package>
+				<unit_of_package>KRT</unit_of_package>
+				<units_on_pallet>100</units_on_pallet>
+				<unit_of_pallet>EP</unit_of_pallet>
+			</packaging_structure>
+			<products_attributes>
+				<attribute>
+					<name>Producer</name>
+					<value>LOBITO</value>
+				</attribute>
+				<attribute>
+					<name>Colour</name>
+					<value>White</value>
+				</attribute>
+			</products_attributes>
+		</product>
+		<product>
+			<code>GK A314</code>
+			<name>Hand cream 250ml</name>
+			<ean>5090987654321</ean>
+			<grupa_magazynowa>Cosmetics</grupa_magazynowa>
+			<packaging_structure>
+				<unit_of_measure>szt</unit_of_measure>
+			</packaging_structure>
+		</product>
+	</products>
+	<items>
+		<item>
+			<LN>1</LN>
+			<code>PM YOS9</code>
+			<ordered_quantity>1</ordered_quantity>
+		</item>
+		<item>
+			<LN>2</LN>
+			<code>GK A314</code>
+			<ordered_quantity>4</ordered_quantity>
+			<item_attributes>
+				<attribute>
+					<name>nr_LOT</name>
+					<value>ABCD826</value>
+				</attribute>
+				<attribute>
+					<name>Quality_status</name>
+					<value>OK</value>
+				</attribute>
+			</item_attributes>
+		</item>
+	</items>
+</document>
+
 
 
 ```
