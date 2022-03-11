@@ -10,14 +10,14 @@ A document contains a standardized format to exchange information related to pur
 
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
-| type | T | specifies the type of document **OUT** for input documents **IN** for output documents. For confirmations **CONFIRM-OUT** and **CONFIRM-IN** respectively.  | varchar(5)  
-orderer|T| From the point of view of the client (ERP system) it can be treated as a constant) | nvarchar(25) | `dord_code` 
-logistics_center | T | logistics center with WMS | nvarchar(25) | `whc_code`
-completion_date |T| requested completion date | smalldatetime | `door_expectedCompletion`
+| type | Y | specifies the type of document **OUT** for input documents **IN** for output documents. For confirmations **CONFIRMOUT** and **CONFIRMIN** respectively.  | varchar(5)  
+orderer|Y| From the point of view of the client (ERP system) it can be treated as a constant) | nvarchar(25) | `dord_code` 
+logistics_center | Y | logistics center with WMS | nvarchar(25) | `whc_code`
+completion_date |Y| requested completion date | smalldatetime | `door_expectedCompletion`
 priority | N | value priority from 0 - 89 priority zero is the lowest. Priorities 90-99 reserved as special for internal use | smallint | `door_expectedCompletion`
-document_alternative_code|T | alternative order code - order code from customer ERP| nvarchar(50) | `door_alternativeCode`
+document_alternative_code|Y | alternative order code - order code from customer ERP| nvarchar(50) | `door_alternativeCode`
 description|N|Description of the document|nvarchar(500) | `door_description`
-firm |T| The object contains the firm data (customer/supplier) depending on the document type| Object
+firm |Y| The object contains the firm data (customer/supplier) depending on the document type| Object
 courier|N| The object contains the data needed to issue a waybill from the WMS.
 document_attribute|N| Attributes of the document header|Collection|
 products|N| Dictionary data of products used in the order | Collection||1.1
@@ -29,10 +29,10 @@ Contains the same fields as the input message extended with fields:
 
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
-OUT_document_nr| T|[For feedback message only] document number in WMS|nvarchar(25) | `ddoc_code`.
-OUT_date_creation| T| [For feedback only] date of creation/import of document|Datetime | `door_dateCreated`
-OUT_date_closed |T| [For feedback only] date of document closure  | Datetime | `door_dateClosed`
-
+OUT_document_nr| Y|[For feedback message only] document number in WMS|nvarchar(25) | `ddoc_code`.
+OUT_date_creation| N| [For feedback only] date of creation/import of document|Datetime | `door_dateCreated`
+OUT_date_closed |N| [For feedback only] date of document closure  | Datetime | `door_dateClosed`
+OUT_status |N| [For feedback only] status of document  | varchar(25) | `door_status`
 
 
 ## Firm object
@@ -43,11 +43,11 @@ The object companies (customer/supplier) depending on the document type. If the 
 
  The field | Required | Description | Data type| WMS field |
 --|--|--|--|--|
-code|T | company code|nvarchar(50)
-name|T | company name|nvarchar(100)
-street|T | street name with street number|nvarchar(100) 
-postal_code|T | country specific format |varchar(10)
-city |T| town name | nvarchar(100) 
+code|Y | company code|nvarchar(50)
+name|Y | company name|nvarchar(100)
+street|Y | street name with street number|nvarchar(100) 
+postal_code|Y | country specific format |varchar(10)
+city |Y| town name | nvarchar(100) 
 country|N | country code if empty inserted **PL** |varchar(2)
 
 JSON example:
@@ -82,7 +82,7 @@ This section is not mandatory, applies only to orders of type ***OUT*** and is u
 
 | Field | Required | Description | Type of data| WMS field |
 |--|--|--|--|--|
-|Service|T |DHL Standard|varchar(50) |`door_tr_service`.
+|Service|Y |DHL Standard|varchar(50) |`door_tr_service`.
 |COD|N | Casch On Demand |decimal(18,6)| `door_tr_COD`.
 | insurance_amount|N | declared amount for insurance (if collection amount must be >= COD)| decimal(18,6)| `door_tr_packageValue` 
 |telephone|N | recipient's contact phone number|varchar(50) | `door_tr_contactPhone`
@@ -134,8 +134,8 @@ Attribute collection can have Max 20 objects. Attributes whose name is inconsist
 
 | Field | Required | Description | Data type| WMS field |
 |--|--|--|--|--|
-| name | T | attribute code from the WMS attribute definition | varchar(50) |`pdef_code`
-| value|T | value inserted in corresponding attribute of document header | varchar(50) | `door_attribXX`
+| name | Y | attribute code from the WMS attribute definition | varchar(50) |`pdef_code`
+| value|Y | value inserted in corresponding attribute of document header | varchar(50) | `door_attribXX`
 
 
 
@@ -176,7 +176,7 @@ Products dictionary
 
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
-|code|T |product code uniquely identifies a product and must be unique within a single ordere |nvarchar(50) |`prd_code`.
+|code|Y |product code uniquely identifies a product and must be unique within a single ordere |nvarchar(50) |`prd_code`.
 |name|N|(if the field is empty the product code will be used as the name when creating a new product). The name does not have to be unique.
 |EAN|N|barcode for the basic unit of measurement (e.g. EAN13) - the barcode does not have to be unique. In case of a different code than the one previously added the original entry will not update and a new one will be added with the current code |varchar(25) |`prdb_code`.
 packaging_structure|N|This section should be used mainly in case of purchase orders.|collection
@@ -191,7 +191,7 @@ The packaging structure ***does not update*** is assumed when a product is first
 
 | Field | Required | Description | Data type| WMS field | From version 
 |--|--|--|--|--|--|
-| unit_of_measure|T | basic unit of measure. The unit of measure code should be consistent with the dictionary in WMS.|varchar(25) |`uom_code` 
+| unit_of_measure|Y | basic unit of measure. The unit of measure code should be consistent with the dictionary in WMS.|varchar(25) |`uom_code` 
 weight |N|The gross weight for the primary unit of measure expressed in ***kg***| decimal(18,6) |`pplv_weight`
 | volume|N | Volume of the basic measurement unit expressed in ***m3***| decimal(18,6) |`pplv_volume`
 units_in_package|N|The number of basic units in a package (carton). A new level of packing structure is created. This packing level is automatically marked as a `pplv_calcAsOpa` packing level | decimal(18,6) | 
@@ -207,8 +207,8 @@ Represents a document item.
 | Field | Required | Description | Data type | WMS field | From version 
 |--|--|--|--|--|--|
 |LN|N | Line number - field used when ERP systems in feedback messages require this information e.g. SAP R3| int |`dori_lineNr`.
-|code |T | Product code uniquely identifies the product and must be unique within one customer |nvarchar(50) |`prd_code`
-|ordered_quantity|T | quantity ordered in basic units of measurement |decimal(18,6) | `dori_basicQuantity`
+|code |Y | Product code uniquely identifies the product and must be unique within one customer |nvarchar(50) |`prd_code`
+|ordered_quantity|Y | quantity ordered in basic units of measurement |decimal(18,6) | `dori_basicQuantity`
 SSCC|N|Pallet number Can be optionally used only in Purchase order **type = IN** |varchar(25) |`dori_SSCC` 
 | pallet_type |N| pallet type only used for delivery advice. Used only when completing the SSCC|varchar(50) |`dori_luType` 
 item_attribute |N | Document Item atributes. If no Quality status attribute is defined a default value for Quality status is inserted.|collection
